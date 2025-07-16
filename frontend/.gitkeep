@@ -1,0 +1,8 @@
+alphawebsys/
+  frontend/
+    src/
+      assets/
+      components/
+        Forms/
+      pages/
+  supabase-schema/
