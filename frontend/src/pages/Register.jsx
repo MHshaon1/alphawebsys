@@ -16,7 +16,7 @@ export default function Register() {
     setError("");
     setSuccess("");
     // Register user with Supabase Auth
-    const { data, error } = await supabase.auth.signUp({
+    const { error } = await supabase.auth.signUp({
       email,
       password,
     });
@@ -26,8 +26,8 @@ export default function Register() {
       return;
     }
 
-    // After sign up, add user profile/role to users table
-    const { data: profile, error: dbError } = await supabase
+    // Add user to users table
+    const { error: dbError } = await supabase
       .from("users")
       .insert([{ email, role, name }]);
 
@@ -49,44 +49,14 @@ export default function Register() {
       <div className="bg-gray-900 rounded-2xl shadow-lg p-8 w-full max-w-md">
         <h2 className="text-2xl font-bold text-white mb-4">Register New User</h2>
         <form className="flex flex-col gap-4" onSubmit={handleRegister}>
-          <input
-            type="text"
-            className="p-3 rounded bg-gray-800 text-white"
-            placeholder="Full Name"
-            value={name}
-            onChange={e => setName(e.target.value)}
-            required
-          />
-          <input
-            type="email"
-            className="p-3 rounded bg-gray-800 text-white"
-            placeholder="Email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            required
-          />
-          <input
-            type="password"
-            className="p-3 rounded bg-gray-800 text-white"
-            placeholder="Password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            required
-          />
-          <select
-            className="p-3 rounded bg-gray-800 text-white"
-            value={role}
-            onChange={e => setRole(e.target.value)}
-          >
+          <input type="text" className="p-3 rounded bg-gray-800 text-white" placeholder="Full Name" value={name} onChange={e => setName(e.target.value)} required />
+          <input type="email" className="p-3 rounded bg-gray-800 text-white" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required />
+          <input type="password" className="p-3 rounded bg-gray-800 text-white" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} required />
+          <select className="p-3 rounded bg-gray-800 text-white" value={role} onChange={e => setRole(e.target.value)}>
             <option value="employee">Employee</option>
             <option value="admin">Admin</option>
           </select>
-          <button
-            type="submit"
-            className="bg-blue-700 text-white py-3 rounded-2xl font-semibold hover:bg-blue-900 transition"
-          >
-            Register
-          </button>
+          <button type="submit" className="bg-blue-700 text-white py-3 rounded-2xl font-semibold hover:bg-blue-900 transition">Register</button>
           {error && <div className="text-red-500 text-sm mt-2">{error}</div>}
           {success && <div className="text-green-500 text-sm mt-2">{success}</div>}
         </form>
